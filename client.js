@@ -22,12 +22,16 @@ $(function () {
             msg.profilePictureVar = 'https://pbs.twimg.com/media/BtFUrp6CEAEmsml.jpg';
         }
         var userProfilePicture = '<img width=\'50\' height=\'50\' src=\'' + msg.profilePictureVar + '\'/>';
+        var timeReadable = messageTimestamp.getHours()+":"+messageTimestamp.getMinutes();
+        var htmlElementTitle = "SentAt" + timeReadable;
 
         if (msg.message.endsWith('.png') || msg.message.endsWith('.jpg') || msg.message.endsWith('.jpeg') || msg.message.endsWith('.gif')) {
-            $('#messages').append('<li data-timestamp='+messageTimestamp+'>' + userProfilePicture + msg.userNameVar + ': <img width=\'200\' height=\'200\' src=\'' + msg.message + '\'/></li>');
+            $('#messages').append('<li data-timestamp='+messageTimestamp+' title='+htmlElementTitle+'>' + userProfilePicture + msg.userNameVar + ': <img width=\'200\' height=\'200\' src=\'' + msg.message + '\'/></li>');
+        } else if (msg.message.endsWith('.mp3') || msg.message.endsWith('.ogg') || msg.message.endsWith('.wav')) {
+            $('#messages').append('<li data-timestamp='+messageTimestamp+' title='+htmlElementTitle+'>' + userProfilePicture + msg.userNameVar + ': <audio controls> <source src=\'' + msg.message + '\' type="audio/mpeg"></audio></li>');
+        } else if (msg.message.endsWith('.mp4') || msg.message.endsWith('.ogg') || msg.message.endsWith('.webm')) {
+            $('#messages').append('<li data-timestamp='+messageTimestamp+' title='+htmlElementTitle+'>' + userProfilePicture + msg.userNameVar + ': <video width="320" height="240" controls> <source src=\'' + msg.message + '\' type="audio/mp4"></video></li>');
         } else {
-            var timeReadable = messageTimestamp.getHours()+":"+messageTimestamp.getMinutes();
-            var htmlElementTitle = "SentAt" + timeReadable;
             $('#messages').append('<li data-timestamp='+messageTimestamp+' title='+htmlElementTitle+' >'  + userProfilePicture + msg.userNameVar + ': ' + msg.message + '</li>');
         }
         var item = document.getElementById('messages').children.item(document.getElementById('messages').children.length - 1);
@@ -37,5 +41,12 @@ $(function () {
             console.log(item.attributes.item(4).name);
         }
     });
-    window.scrollTo(0, document.body.scrollHeight + 20000000);
+    window.scrollTo(0, document.body.scrollHeight + 2000000);
+
+    // let dropArea = $('#m');
+    // dropArea.addEventListener('dragenter', handlerFunction, false)
+    // dropArea.addEventListener('dragleave', handlerFunction, false)
+    // dropArea.addEventListener('drop', handlerFunction, false)
+    //
+    // function handlerFunction
 });
